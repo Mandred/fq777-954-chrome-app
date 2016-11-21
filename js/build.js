@@ -200,22 +200,71 @@ if(!!navigator.getGamepads){
 
 	var sendGamepadData = function() {
 		if(udpBound) {
+			
 			if(navigator.getGamepads()[0]) {
 				var gamepad = navigator.getGamepads()[0];
+	
 				data[1] = Math.floor((applyDeadzone(gamepad.axes[0]) + 1) * 127);
 				data[2] = Math.floor((2 - applyDeadzone(gamepad.axes[1]) + 1) * 127);
 				data[3] = Math.floor((gamepad.buttons[7].value) * 255);
 				data[4] = Math.floor((applyDeadzone(gamepad.axes[2]) + 1) * 127);
-				data[6] = checksum(data);
-				for(var i=0; i<dataArray.length; ++i) {
+				
+				
+			} 
+			else {
+			window.onkeydown = function(k) {
+				
+				if (k.keyCode == 37 && data[1] >= 16) { //LEFT
+					data[1] = data[1] - 16;
+					return false
+				}
+				if (k.keyCode == 39 && data[1] < (255 - 16)) { //RIGHT 
+					data[1] = data[1] + 16;
+					return false
+				}
+				
+				if (k.keyCode == 38 && data[2] < (255 - 16)) { //UP
+					data[2] = data[2] + 16;
+					return false
+				}
+				if (k.keyCode == 40 && data[2] >= 16) { //DOWN
+					data[2] = data[2] - 16;
+					return false
+				}
+				
+				
+				if (k.keyCode == 32) { //SPACE throttle
+					data[3] = 0; 
+					return false
+				}
+				if (k.keyCode == 87 && data[3] < (255 - 16)) { //W throttle 
+					data[3] = data[3] + 16;
+					return false
+				}
+				if (k.keyCode == 83 && data[3] >= 16) { //S throttle
+					data[3] = data[3] - 16;
+					return false
+				}
+				
+				
+				if (k.keyCode == 65 && data[4] >= 16 ) { //A 
+					data[4] = data[4] - 16;
+					return false
+				}
+				if (k.keyCode == 68 && data[4] < (255 - 16)) { //D 
+					data[4] = data[4] + 16;
+					return false
+				}
+				
+			}
+			}
+			data[6] = checksum(data);
+			for(var i=0; i<dataArray.length; ++i) {
 					dataArray[i] = data[i];
 				}
 				console.log(data);
-			} else {
-				for(var i=0; i<dummyData.length; ++i) {
-					dataArray[i] = dummyData[i];
-				}
-			}
+				console.log(dataArray);
+
 			chrome.sockets.udp.send(udpSocket, dataArray.buffer, droneIp, droneUdpPort, function(e) {
 				if(chrome.runtime.lastError) {
 					console.log(chrome.runtime.lastError);
