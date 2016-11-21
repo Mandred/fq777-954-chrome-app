@@ -1,5 +1,5 @@
 # FQ777-954 Chrome App
-Chrome App for controlling the FQ777-954 quadcopter with a Gamepad
+Chrome App for controlling the FQ777-954 quadcopter with a either Keyboard or a Gamepad
 
 How to use:
 
@@ -7,7 +7,7 @@ How to use:
 2. Install the extension via developer mode (load unpacked extension)
 3. Connect the PC to the wifi AP of the quadcopter
 4. Start the FQ777-954 Chrome App
-5. Use a gamepad to controll the quadcopter
+5. Controll it using WASD, UP DOWN LEFT RIGHT (Space) if your Gamepad
 
 **Check if your gamepad works with Chrome here: http://html5gamepad.com/**
 
