@@ -263,7 +263,6 @@ if(!!navigator.getGamepads){
 					dataArray[i] = data[i];
 				}
 				console.log(data);
-				console.log(dataArray);
 
 			chrome.sockets.udp.send(udpSocket, dataArray.buffer, droneIp, droneUdpPort, function(e) {
 				if(chrome.runtime.lastError) {
